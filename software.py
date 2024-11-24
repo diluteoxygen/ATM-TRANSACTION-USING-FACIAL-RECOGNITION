@@ -25,6 +25,12 @@ import pandas as pd
 
 ARIAL = ("arial", 10, "bold")
 
+import os
+
+# Print current working directory
+print("Current directory:", os.getcwd())
+
+
 
 class BankUi: #main UI
     def __init__(self, root):
@@ -400,7 +406,9 @@ class BankUi: #main UI
         img_counter = 0
 
         dirname = f'dataset/{name}'
-        os.mkdir(dirname)
+        # Check if the directory exists before creating it
+        if not os.path.exists(dirname):
+            os.mkdir(dirname)
 
         while True:
             ret, frame = cam.read()
@@ -419,10 +427,8 @@ class BankUi: #main UI
                 break
             elif k % 256 == 32:
                 # SPACE pressed
-                path = f'dataset/{name}'
                 img_name = "{}.jpg".format(img_counter)
-                cv2.imwrite(os.path.join(path, img_name), frame)
-                cv2.imwrite(img_name, frame)
+                cv2.imwrite(os.path.join(dirname, img_name), frame)
                 print("{} written!".format(img_name))
                 img_counter += 1
 
